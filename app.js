@@ -3,7 +3,6 @@
  */
 var createError = require("http-errors");
 var express = require("express");
-var router=express.Router();
 var path = require("path");
 var logger = require("morgan");
 var session = require("express-session");
@@ -33,7 +32,16 @@ app.use(logger("dev"));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, "build")));
+if (process.env.NODE_ENV === 'production') {
+  // Serve any static files
+  app.use(express.static(path.join(__dirname, "build")));
+  // Handle React routing, return all requests to React app
+  app.get('*', function(req, res) {
+    res.sendFile(path.join(__dirname, "build", "index.html"));
+  });
+}else{
+  app.use(express.static(path.join(__dirname,"build")));
+}
 app.use(
   session({
     secret:
@@ -46,10 +54,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.sendFile(path.join(__dirname, 'build'));
-});
 
 /*
  ** Setup routes from dependencies
