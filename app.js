@@ -48,6 +48,10 @@ app.use(passport.session());
 /*
  ** Setup routes from dependencies
  */
+
+app.get('/*', function (req, res) {
+   res.sendFile(path.join(__dirname, 'build'));
+ });
 app.use("/users", userController);
 app.use("/history", historyController);
 
