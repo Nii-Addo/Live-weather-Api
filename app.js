@@ -3,6 +3,7 @@
  */
 var createError = require("http-errors");
 var express = require("express");
+var router=express.Router();
 var path = require("path");
 var logger = require("morgan");
 var session = require("express-session");
@@ -45,13 +46,14 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+/* GET home page. */
+router.get('/', function(req, res, next) {
+  res.sendFile(path.join(__dirname, 'build'));
+});
+
 /*
  ** Setup routes from dependencies
  */
-
-app.get('/*', function (req, res) {
-   res.sendFile(path.join(__dirname, 'build'));
- });
 
 app.use("/users", userController);
 app.use("/history", historyController);
