@@ -2,7 +2,7 @@
   "name": "kanta-api",
   "version": "1.0.0",
   "description": "",
-  "main": "bin/www.js",
+  "main": "./bin/www.js",
   "scripts": {
     "start": "node ./bin/www.js",
     "dev": "set DEBUG=express:* & nodemon ./bin/www.js",
